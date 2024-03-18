@@ -1,0 +1,177 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\yyl13\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
+
+PATH: 
+  C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;c:\program files (x86)\razer\chromabroadcast\bin;c:\program files\razer\chromabroadcast\bin;c:\windows\system32;c:\windows;c:\windows\system32\wbem;c:\windows\system32\windowspowershell\v1.0\;c:\windows\system32\openssh\;c:\program files\nvidia corporation\nvidia nvdlisr;c:\windows\system32\config\systemprofile\appdata\local\microsoft\windowsapps;c:\program files\git\cmd;c:\program files\tortoisegit\bin;c:\program files\dotnet\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\mysql-5.7.37-winx64\bin;C:\Program Files\Java\jdk1.8.0_181\bin;C:\Program Files\Java\jdk1.8.0_181\jre\bin;C:\Program Files\nodejs\;C:\Program Files\Docker\Docker\resources\bin;C:\Users\yyl13\.console-ninja\.bin;C:\Users\yyl13\AppData\Local\Microsoft\WindowsApps;D:\Program Files\zip\;E:\program file\Microsoft VS Code\bin;C:\Users\yyl13\AppData\Local\BypassRuntm;C:\Users\yyl13\AppData\Local\Microsoft\WindowsApps;C:\Users\yyl13\AppData\Roaming\npm;C:\Users\yyl13\AppData\Local\Microsoft\WindowsApps;
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.20.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: certificate has expired
+      at TLSSocket.onConnectSecure (node:_tls_wrap:1539:34)
+      at TLSSocket.emit (node:events:513:28)
+      at TLSSocket._finishInit (node:_tls_wrap:953:8)
+      at TLSWrap.ssl.onhandshakedone (node:_tls_wrap:734:12)
+
+npm manifest: 
+  {
+    "name": "react-starter",
+    "version": "1.0.0",
+    "description": "typescript",
+    "main": "index.js",
+    "scripts": {
+      "common": "cross-env NODE_ENV=development webpack --config ./scripts/config/webpack.common.js",
+      "server": "cross-env NODE_ENV=development node scripts/server",
+      "start": "cross-env NODE_ENV=production webpack serve --config ./scripts/config/webpack.dev.js",
+      "build": "cross-env NODE_ENV=production webpack --config ./scripts/config/webpack.prod.js",
+      "lint": "npm run lint-eslint && npm run lint-stylelint",
+      "lint-eslint": "eslint -c .eslintrc.js --ext .ts,.tsx,.js src",
+      "lint-stylelint": "stylelint --config .stylelintrc.js src/**/*.{less,css,scss}",
+      "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    },
+    "husky": {
+      "hooks": {
+        "pre-commit": "lint-staged",
+        "commit-msg": "commitlint --config .commitlintrc.js -E HUSKY_GIT_PARAMS"
+      }
+    },
+    "lint-staged": {
+      "*.{ts,tsx,js}": [
+        "eslint --config .eslintrc.js"
+      ],
+      "*.{css,less,scss}": [
+        "stylelint --config .stylelintrc.js"
+      ],
+      "*.{ts,tsx,js,json,html,yml,css,less,scss,md}": [
+        "prettier --write"
+      ]
+    },
+    "browserslist": [
+      ">0.2%",
+      "not dead",
+      "ie >= 11",
+      "not op_mini all"
+    ],
+    "repository": {
+      "type": "git",
+      "url": "git+http://github.com/yyl134934/ts.git"
+    },
+    "keywords": [],
+    "author": "junger",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/yyl134934/ts/issues"
+    },
+    "homepage": "https://github.com/yyl134934/ts#readme",
+    "devDependencies": {
+      "@babel/core": "^7.14.6",
+      "@babel/plugin-proposal-class-properties": "^7.14.5",
+      "@babel/plugin-proposal-decorators": "^7.14.5",
+      "@babel/plugin-proposal-do-expressions": "^7.14.5",
+      "@babel/plugin-proposal-export-default-from": "^7.14.5",
+      "@babel/plugin-proposal-export-namespace-from": "^7.14.5",
+      "@babel/plugin-proposal-function-bind": "^7.14.5",
+      "@babel/plugin-proposal-function-sent": "^7.14.5",
+      "@babel/plugin-proposal-json-strings": "^7.14.5",
+      "@babel/plugin-proposal-logical-assignment-operators": "^7.14.5",
+      "@babel/plugin-proposal-nullish-coalescing-operator": "^7.14.5",
+      "@babel/plugin-proposal-numeric-separator": "^7.14.5",
+      "@babel/plugin-proposal-optional-chaining": "^7.14.5",
+      "@babel/plugin-proposal-pipeline-operator": "^7.14.5",
+      "@babel/plugin-proposal-throw-expressions": "^7.14.5",
+      "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+      "@babel/plugin-syntax-import-meta": "^7.10.4",
+      "@babel/plugin-transform-runtime": "^7.14.5",
+      "@babel/preset-env": "^7.14.7",
+      "@babel/preset-react": "^7.14.5",
+      "@babel/preset-typescript": "^7.14.5",
+      "@commitlint/cli": "^12.1.4",
+      "@commitlint/config-conventional": "^12.1.4",
+      "@types/react": "^17.0.11",
+      "@types/react-dom": "^17.0.8",
+      "@types/webpack-env": "^1.16.0",
+      "@typescript-eslint/eslint-plugin": "^4.28.0",
+      "@typescript-eslint/parser": "^4.28.0",
+      "autoprefixer": "^10.2.6",
+      "babel-loader": "^8.2.2",
+      "babel-plugin-import": "^1.13.3",
+      "bufferutil": "^4.0.3",
+      "chalk": "^4.1.1",
+      "clean-webpack-plugin": "^4.0.0-alpha.0",
+      "conventional-changelog-cli": "^2.1.1",
+      "copy-webpack-plugin": "^9.0.0",
+      "cross-env": "^7.0.3",
+      "css-loader": "^5.2.6",
+      "css-minimizer-webpack-plugin": "^3.0.2",
+      "dayjs": "^1.10.5",
+      "detect-port": "^1.3.0",
+      "detect-port-alt": "^1.1.6",
+      "eslint": "^7.29.0",
+      "eslint-config-airbnb": "^18.2.1",
+      "eslint-config-prettier": "^8.3.0",
+      "eslint-import-resolver-typescript": "^2.4.0",
+      "eslint-plugin-import": "^2.23.4",
+      "eslint-plugin-jsx-a11y": "^6.4.1",
+      "eslint-plugin-prettier": "^3.4.0",
+      "eslint-plugin-promise": "^5.1.0",
+      "eslint-plugin-react": "^7.24.0",
+      "eslint-plugin-react-hooks": "^4.2.0",
+      "eslint-plugin-unicorn": "^29.0.0",
+      "file-loader": "^6.2.0",
+      "fork-ts-checker-webpack-plugin": "^6.2.12",
+      "glob": "^7.1.7",
+      "html-webpack-plugin": "^5.3.2",
+      "husky": "^6.0.0",
+      "ip": "^1.1.5",
+      "is-root": "^3.0.0",
+      "less": "^4.1.1",
+      "less-loader": "^10.0.0",
+      "lint-staged": "^11.0.0",
+      "mini-css-extract-plugin": "^1.6.0",
+      "postcss": "^8.3.5",
+      "postcss-flexbugs-fixes": "^5.0.2",
+      "postcss-loader": "^6.1.0",
+      "postcss-normalize": "^10.0.0",
+      "postcss-preset-env": "^6.7.0",
+      "prettier": "^2.3.1",
+      "style-loader": "^2.0.0",
+      "stylelint": "^13.13.1",
+      "stylelint-config-prettier": "^8.0.2",
+      "stylelint-config-rational-order": "^0.1.2",
+      "stylelint-config-standard": "^22.0.0",
+      "stylelint-declaration-block-no-ignored-properties": "^2.3.0",
+      "stylelint-order": "^4.1.0",
+      "terser-webpack-plugin": "^5.1.3",
+      "typescript": "^4.3.4",
+      "url-loader": "^4.1.1",
+      "utf-8-validate": "^5.0.5",
+      "webpack": "^5.40.0",
+      "webpack-bundle-analyzer": "^4.4.2",
+      "webpack-cli": "^4.7.2",
+      "webpack-dev-server": "^3.11.2",
+      "webpack-merge": "^5.8.0",
+      "webpackbar": "^5.0.0-3"
+    },
+    "dependencies": {
+      "@babel/runtime": "^7.14.6",
+      "@babel/runtime-corejs3": "^7.14.7",
+      "antd": "^4.16.5",
+      "axios": "^0.21.1",
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2",
+      "react-router-dom": "^5.2.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
