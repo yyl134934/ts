@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './components/Header';
-import './app.less';
+import './app.css';
 
 interface IProps {
   name: string;
