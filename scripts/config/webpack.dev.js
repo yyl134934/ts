@@ -6,14 +6,14 @@ const proxyConfigs = require('../../src/setProxy');
 
 module.exports = merge(common, {
   mode: 'development',
-  devtool: 'cheap-module-source-map',
+  devtool: 'eval-cheap-module-source-map',
   devServer: {
     host: SERVER_HOST, // 地址
     port: SERVER_PORT, // 端口
     hot: true, // 热更新
-    bonjour: false,//广播开发服务器
+    bonjour: false, //广播开发服务器
     client: {
-      logging: 'info',// 日志等级
+      logging: 'info', // 日志等级
     },
     compress: true, // 是否启用 gzip 压缩
     open: true, // 打开默认浏览器

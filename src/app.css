@@ -1,7 +1,6 @@
-html {
-  font-size: 12px;
-}
-
-#root {
-  display: flex;
+html,
+body,
+#root,
+.app {
+  height: 100%;
 }

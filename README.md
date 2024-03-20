@@ -96,7 +96,8 @@ PROJECT
 * `Zustand 4.x`   
 * `Lodash 4.x`
 * `Dayjs 1.x`
-* ~~Echarts~~ 
+* - [x] `React-Transition-Group `
+* - [ ] Echarts
 
 
 **打包、调试、解析**
@@ -122,6 +123,7 @@ PROJECT
     * mini-css-extract-plugin
     * webpack-bundle-analyzer
     * ~~terser-webpack-plugin~~
+
 * `Babel 7.x`
   * babel/core
   * babel/preset-env

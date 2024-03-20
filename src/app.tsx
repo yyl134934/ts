@@ -1,18 +1,12 @@
-import React from 'react';
-import Header from './components/Header';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import router from './routes';
 import './app.css';
 
-interface IProps {
-  name: string;
-  age: number;
-}
-
-function App(props: IProps) {
-  const { name, age } = props;
+function App() {
+  const routes = createBrowserRouter(router);
   return (
     <div className='app'>
-      <Header />
-      <span>{`Hello! I'm ${name}, ${age} years old.`}</span>
+      <RouterProvider router={routes} />
     </div>
   );
 }

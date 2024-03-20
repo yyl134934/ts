@@ -10,7 +10,6 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { isDev, PROJECT_PATH, THEME } = require('../constants');
 
 const getCssLoaders = (importLoaders) => [
-  // 'style-loader',
   isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
   {
     loader: 'css-loader',
@@ -25,18 +24,7 @@ const getCssLoaders = (importLoaders) => [
     options: {
       implementation: require('postcss'),
       postcssOptions: {
-        plugins: [
-          // 修复一些和 flex 布局相关的 bug
-          require('postcss-flexbugs-fixes'),
-          require('postcss-preset-env')({
-            autoprefixer: {
-              grid: true,
-              flexbox: 'no-2009',
-            },
-            stage: 3,
-          }),
-          require('postcss-normalize'),
-        ],
+        plugins: [require('autoprefixer'), require('postcss-preset-env'), require('cssnano')],
       },
       sourceMap: isDev,
     },
@@ -132,8 +120,8 @@ module.exports = {
             options: {
               sourceMap: isDev,
               lessOptions: {
-                // 如果使用less-loader@5，请移除 lessOptions 这一级直接配置选项。
-                modifyVars: THEME.light,
+                // 【antd 主题色配置】如果使用less-loader@5，请移除 lessOptions 这一级直接配置选项。
+                // modifyVars: THEME.light,
                 javascriptEnabled: true,
               },
             },
