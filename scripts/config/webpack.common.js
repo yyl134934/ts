@@ -177,6 +177,7 @@ module.exports = {
             useShortDoctype: true,
           },
     }),
+    // 打包静态文件
     // new CopyWebpackPlugin({
     //   patterns: [{ from: './src/static', to: './static', toType: 'dir' }],
     // }),
