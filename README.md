@@ -148,3 +148,8 @@ PROJECT
   * commitlint/config-conventional
 * `Prettier 3.x`
 * `Lint-Staged`
+
+## 五、更新计划
+- [x] 开启日志提交规范commitlint + lint-staged + husky
+- [ ] koa简单接口 
+- [ ] 路由鉴权 
