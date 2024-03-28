@@ -11,17 +11,17 @@ const compiler = Webpack(webpackDevConfig);
 const devServerOptions = {
   ...webpackDevConfig.devServer,
 };
-const server = new WebpackDevServer(compiler, devServerOptions);
+const server = new WebpackDevServer(devServerOptions, compiler);
 
 async function startServer() {
   const resPort = await choosePort(SERVER_PORT, SERVER_HOST);
   try {
     if (resPort !== null) {
-      server.listen(resPort, SERVER_HOST, (err) => {
+      server.startCallback((err) => {
         if (err) {
-          return logger.error(err.message);
+          logger.error(err.message);
         }
-        return logger.start(resPort, SERVER_HOST);
+        logger.start(resPort, SERVER_HOST);
       });
     }
   } catch (error) {
