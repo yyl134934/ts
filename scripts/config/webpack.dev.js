@@ -16,6 +16,7 @@ module.exports = merge(common, {
     },
     compress: true, // 是否启用 gzip 压缩
     open: false, // 打开默认浏览器
+    historyApiFallback: true, // 404 响应重定向到 index.html 文件。
     // overlay: { warnings: true, errors: true }, // 出现编译器错误或警告时，在浏览器中显示全屏覆盖
     // proxy: { ...proxyConfigs },//代理（处理跨域问题）
   },
