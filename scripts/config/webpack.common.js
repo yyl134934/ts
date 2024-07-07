@@ -3,19 +3,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const { isDev, PROJECT_PATH, THEME } = require('../constants');
+const { IS_DEV, PROJECT_PATH, THEME } = require('../constants');
 
 const getCssLoaders = (importLoaders) => [
-  isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+  IS_DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
   {
     loader: 'css-loader',
     options: {
       modules: false,
-      sourceMap: isDev,
+      sourceMap: IS_DEV,
       importLoaders,
     },
   },
@@ -24,19 +24,58 @@ const getCssLoaders = (importLoaders) => [
     options: {
       implementation: require('postcss'),
       postcssOptions: {
-        plugins: [require('autoprefixer'), require('postcss-preset-env'), require('cssnano')],
+        plugins: [require('autoprefixer'), require('postcss-preset-env')],
       },
-      sourceMap: isDev,
+      sourceMap: IS_DEV,
     },
   },
 ];
+
+const getMiniPlugins = () => {
+  return [
+    !IS_DEV &&
+      new TerserPlugin({
+        extractComments: false,
+        terserOptions: {
+          compress: { pure_funcs: ['console.log'] },
+        },
+      }),
+    !IS_DEV && new CssMinimizerPlugin(),
+  ].filter(Boolean);
+};
+
+const getCacheGroups = () => {
+  return {
+    vendors: {
+      // 项目基本框架等
+      chunks: 'all',
+      test: /[/\\]node_modules[/\\]/,
+      priority: -10,
+      name: 'vendors',
+    },
+    'async-commons': {
+      // 异步加载公共包、组件等
+      chunks: 'async',
+      minChunks: 2,
+      name: 'async-commons',
+      priority: -20,
+    },
+    commons: {
+      // 其他同步加载公共包
+      chunks: 'all',
+      minChunks: 2,
+      name: 'commons',
+      priority: -30,
+    },
+  };
+};
 
 module.exports = {
   // entry: { app: ['core-js', path.resolve(PROJECT_PATH, './src/index.tsx')] },
   entry: { app: path.resolve(PROJECT_PATH, './src/index.tsx') },
   target: 'web', // webpack 5之后需要指定，否则根据browserlist来定（影响热更新）
   output: {
-    filename: `js/[name].${isDev ? '' : '[chunkhash:8]'}.js`,
+    filename: `js/[name].${IS_DEV ? '' : '[chunkhash:8]'}.js`,
     path: path.resolve(PROJECT_PATH, './dist'),
   },
   // externals: {
@@ -47,47 +86,20 @@ module.exports = {
   optimization: {
     splitChunks: {
       chunks: 'all',
-      minSize: 20000,
+      minSize: 244,
       minRemainingSize: 0,
       minChunks: 1,
       maxAsyncRequests: 30,
       maxInitialRequests: 30,
       enforceSizeThreshold: 50000,
-      cacheGroups: {
-        vendors: {
-          // 项目基本框架等
-          chunks: 'all',
-          test: /[/\\]node_modules[/\\]/,
-          priority: -10,
-          name: 'vendors',
-        },
-        'async-commons': {
-          // 异步加载公共包、组件等
-          chunks: 'async',
-          minChunks: 2,
-          name: 'async-commons',
-          priority: -20,
-        },
-        commons: {
-          // 其他同步加载公共包
-          chunks: 'all',
-          minChunks: 2,
-          name: 'commons',
-          priority: -30,
-        },
-      },
+      cacheGroups: getCacheGroups(),
     },
-    minimize: !isDev,
-    minimizer: [
-      !isDev &&
-        new TerserPlugin({
-          extractComments: false,
-          terserOptions: {
-            compress: { pure_funcs: ['console.log'] },
-          },
-        }),
-      !isDev && new CssMinimizerPlugin(),
-    ].filter(Boolean),
+    minimize: !IS_DEV,
+    minimizer: getMiniPlugins(),
+  },
+  performance: {
+    maxEntrypointSize: 1024000, // 1MB
+    maxAssetSize: 1024000, // 1MB
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.json'],
@@ -101,10 +113,21 @@ module.exports = {
     rules: [
       {
         test: /\.(tsx?|js)$/,
-        loader: 'babel-loader',
-        options: {
-          cacheDirectory: true,
-        },
+        use: [
+          {
+            loader: 'thread-loader',
+            options: {
+              worker: 4,
+              workerParallelJobs: 50,
+            },
+          },
+          {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+            },
+          },
+        ],
         exclude: /node_modules/,
       },
       {
@@ -118,7 +141,7 @@ module.exports = {
           {
             loader: 'less-loader',
             options: {
-              sourceMap: isDev,
+              sourceMap: IS_DEV,
               lessOptions: {
                 // 【antd 主题色配置】如果使用less-loader@5，请移除 lessOptions 这一级直接配置选项。
                 // modifyVars: THEME.light,
@@ -160,7 +183,7 @@ module.exports = {
       template: path.resolve(PROJECT_PATH, './public/index.html'),
       filename: 'index.html',
       cache: false, // 特别重要：防止之后使用v6版本 copy-webpack-plugin 时代码修改一刷新页面为空问题。
-      minify: isDev
+      minify: IS_DEV
         ? false
         : {
             removeAttributeQuotes: true,
@@ -179,10 +202,10 @@ module.exports = {
     }),
     // 打包静态文件
     // new CopyWebpackPlugin({
-    //   patterns: [{ from: './src/static', to: './static', toType: 'dir' }],
+    //   patterns: [{ from: './src/assets', to: './assets', toType: 'dir' }],
     // }),
     new WebpackBar({
-      name: isDev ? '正在启动' : '正在打包',
+      name: IS_DEV ? '正在启动' : '正在打包',
       color: '#fa8c16',
     }),
     new ForkTsCheckerWebpackPlugin({
@@ -190,12 +213,5 @@ module.exports = {
         configFile: path.resolve(PROJECT_PATH, './tsconfig.json'),
       },
     }),
-    !isDev &&
-      new MiniCssExtractPlugin({
-        filename: 'css/[name].[contenthash:8].css',
-        chunkFilename: 'css/[name].[contenthash:8].css',
-        ignoreOrder: false,
-        linkType: 'text/css',
-      }),
   ],
 };

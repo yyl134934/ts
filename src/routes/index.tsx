@@ -1,8 +1,12 @@
-import { Suspense, lazy } from 'react';
-// import Home from '../pages/Home';
+// import { Suspense, lazy } from 'react';
 import Login from '../pages/Login';
+import Home from '../pages/Home';
+import Layout from '../layouts';
+import AuthRouter from './auth';
+import { Navigate } from 'react-router-dom';
 
-const Home = lazy(() => import('../pages/Home'));
+// const Home = lazy(() => import('../pages/Home'));
+// const Layout = lazy(() => import('../layouts'));
 
 const pathConfig = [
   {
@@ -10,21 +14,27 @@ const pathConfig = [
     element: <Login />,
   },
   {
-    path: 'login',
+    path: '/login',
     element: <Login />,
   },
   {
-    path: 'home',
+    path: '/',
     element: (
-      <Suspense fallback={<div>登录中...</div>}>
-        <Home />
-      </Suspense>
+      <AuthRouter>
+        <Layout />
+      </AuthRouter>
     ),
+    children: [
+      {
+        path: 'home',
+        element: <Home />,
+      },
+    ],
   },
-  // {
-  //   path: '*',
-  //   element: <NoFound />,
-  // }
+  {
+    path: '*',
+    element: <Navigate to='/login' />,
+  },
 ];
 
 export default pathConfig;

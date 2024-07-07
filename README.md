@@ -146,10 +146,12 @@ PROJECT
 * `CommitLint`
   * commitlint/cli
   * commitlint/config-conventional
+* `Conventional-ChangeLog`
 * `Prettier 3.x`
 * `Lint-Staged`
+* `Husky`
 
 ## 五、更新计划
 - [x] 开启日志提交规范commitlint + lint-staged + husky
 - [ ] koa简单接口 
-- [ ] 路由鉴权 
+- [x] 路由鉴权 

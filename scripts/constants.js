@@ -23,6 +23,8 @@ const THEME = {
   },
 };
 
+const IS_DEV = process.env.NODE_ENV === 'development';
+
 module.exports = {
   PROJECT_PATH,
   PROJECT_NAME,
@@ -33,4 +35,5 @@ module.exports = {
   ANALYZER_PORT,
   imageInlineSizeLimit,
   THEME,
+  IS_DEV,
 };

@@ -7,11 +7,29 @@
 }
 
 .login__form {
-  width: 37.5rem;
-  height: 25rem;
+  width: 28rem;
+  height: 32rem;
+  background-color: #fff;
+  box-shadow: 0px 9px 28px 0 rgba(0, 0, 0, 0.10);
+
+  &:hover{
+    box-shadow: 0px 9px 28px 0 rgba(0, 0, 0, 0.15);
+  }
 
   .form-topic {
     font-weight: 600;
-    font-size: large;
+    font-size: 2rem;
+    text-align: center;
+    margin: 3rem 0;
+    letter-spacing: 1rem;
+  }
+
+  .form-submit{
+    width: 100%;
+  }
+
+  .form-pwd .ant-form-item-control-input-content{
+    display: flex;
+    justify-content: space-between;
   }
 }

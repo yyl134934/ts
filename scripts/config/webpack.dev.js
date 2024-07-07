@@ -13,6 +13,7 @@ module.exports = merge(common, {
     bonjour: false, //广播开发服务器
     client: {
       logging: 'info', // 日志等级
+      overlay: true, // 在浏览器中显示编译错误
     },
     compress: true, // 是否启用 gzip 压缩
     open: false, // 打开默认浏览器

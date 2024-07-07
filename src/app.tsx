@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import router from './routes';
 import './app.css';
+import { Suspense } from 'react';
 
 function App() {
   const routes = createBrowserRouter(router);
