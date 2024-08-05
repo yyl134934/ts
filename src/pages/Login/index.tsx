@@ -1,28 +1,11 @@
 import React, { useEffect } from 'react';
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { clearLoginInfo, saveLoginInfo } from '@/api/local-storage';
+import { login, ILoginParams, IUser } from './api';
 import './index.less';
-import { clearLoginInfo, saveLoginInfo } from 'Src/api/local-storage';
 
-interface User {
-  username: string;
-  password: string;
-}
-interface LoginRespone {
-  ret_code: number;
-  ret_msg: string;
-  token: string;
-}
-
-const fakeQuery = async (userInfo: User): Promise<LoginRespone> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ ret_code: 200, ret_msg: 'Login succeeded!', token: 'mock data' });
-    }, 1000);
-  });
-};
-
-interface LoginInfo extends User {
+interface LoginInfo extends ILoginParams {
   remember: boolean;
 }
 
@@ -34,17 +17,17 @@ const Login: React.FC = () => {
   }, []);
 
   const onFinish = async (values: LoginInfo) => {
-    console.log('Success:', values);
     const { remember, ...user } = values;
-    const { ret_code: retCode, ret_msg: retMsg, token } = await fakeQuery(user);
+    const { data, retmsg, retno } = await login(user);
+    console.log('🚀🐍 ~ onFinish ~ retno:', retno);
 
-    if (retCode !== 200) {
-      message.error(`登录失败[${retCode}]：${retMsg}`);
+    if (retno !== `200`) {
+      message.error(`登录失败[${retno}]：${retmsg}`);
       return;
     }
 
     if (remember) {
-      saveLoginInfo(token);
+      saveLoginInfo(data?.token);
     }
 
     message.success(`登录成功！`);

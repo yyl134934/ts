@@ -1,4 +1,4 @@
-import { getLoginInfo } from 'Src/api/local-storage';
+import { getLoginInfo } from '@/api/local-storage';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
