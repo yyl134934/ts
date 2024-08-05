@@ -104,9 +104,7 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.json'],
     alias: {
-      Src: path.resolve(PROJECT_PATH, './src'),
-      Components: path.resolve(PROJECT_PATH, './src/components'),
-      Utils: path.resolve(PROJECT_PATH, './src/utils'),
+      '@': path.resolve(PROJECT_PATH, './src'),
     },
   },
   module: {
