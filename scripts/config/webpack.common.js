@@ -6,9 +6,37 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const { IS_DEV, PROJECT_PATH, THEME } = require('../constants');
 
+const htmlConfigs = {
+  template: path.resolve(PROJECT_PATH, './public/index.html'),
+  filename: 'index.html',
+  cache: false, // 特别重要：防止之后使用v6版本 copy-webpack-plugin 时代码修改一刷新页面为空问题。
+  minify: IS_DEV
+    ? false
+    : {
+        removeAttributeQuotes: true,
+        collapseWhitespace: true,
+        removeComments: true,
+        collapseBooleanAttributes: true,
+        collapseInlineTagWhitespace: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        minifyCSS: true,
+        minifyJS: true,
+        minifyURLs: true,
+        useShortDoctype: true,
+      },
+};
+
+/**
+ * 根据环境和配置生成CSS加载器数组
+ * @param {boolean} importLoaders - 是否启用导入加载器
+ * @returns {Array} - 包含CSS加载器的数组
+ */
 const getCssLoaders = (importLoaders) => [
   IS_DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
   {
@@ -177,27 +205,8 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(PROJECT_PATH, './public/index.html'),
-      filename: 'index.html',
-      cache: false, // 特别重要：防止之后使用v6版本 copy-webpack-plugin 时代码修改一刷新页面为空问题。
-      minify: IS_DEV
-        ? false
-        : {
-            removeAttributeQuotes: true,
-            collapseWhitespace: true,
-            removeComments: true,
-            collapseBooleanAttributes: true,
-            collapseInlineTagWhitespace: true,
-            removeRedundantAttributes: true,
-            removeScriptTypeAttributes: true,
-            removeStyleLinkTypeAttributes: true,
-            minifyCSS: true,
-            minifyJS: true,
-            minifyURLs: true,
-            useShortDoctype: true,
-          },
-    }),
+    new Dotenv(),
+    new HtmlWebpackPlugin(htmlConfigs),
     // 打包静态文件
     // new CopyWebpackPlugin({
     //   patterns: [{ from: './src/assets', to: './assets', toType: 'dir' }],

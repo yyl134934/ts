@@ -18,7 +18,7 @@ export interface FcResponse<T> {
   data: T;
 }
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = process.env.APP_DOMAIN;
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
