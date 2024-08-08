@@ -5,6 +5,7 @@ const glob = require('glob');
 // const PurgeCSSPlugin = require('purgecss-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 const common = require('./webpack.common');
 const { PROJECT_PATH, shouldOpenAnalyzer, ANALYZER_HOST, ANALYZER_PORT } = require('../constants');
@@ -14,6 +15,10 @@ module.exports = merge(common, {
   devtool: false,
   plugins: [
     new CleanWebpackPlugin(),
+    new WebpackManifestPlugin({
+      fileName: 'manifest.json',
+      publicPath: '/dist/',
+    }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].[contenthash:8].css',
