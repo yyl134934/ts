@@ -11,7 +11,7 @@ const Login: React.FC = () => {
   const [shouldFetch, setShouldFetch] = useState(false);
   const navigate = useNavigate();
 
-  const { data, isLoading, isSuccess } = useQuery<IUser>({
+  const { data, isLoading, isSuccess } = useQuery({
     queryKey: ['login', param],
     queryFn: () => login(param),
     enabled: shouldFetch,
@@ -20,8 +20,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      const { token } = data as IUser;
-      saveLoginInfo(token);
+      saveLoginInfo(data?.token);
 
       message.success(`登录成功！`);
       navigate('/home');

@@ -1,6 +1,6 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { menuItems, defaultSelectedKeys, defaultOpenKeys } from './menu.config';
 import './index.less';
@@ -28,10 +28,9 @@ const GlobalLayout: React.FC = (props: LayoutProps) => {
       </Sider>
       <Layout className='site-layout'>
         <Header className='site-layout-background' style={{ padding: 0 }}>
-          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: () => setCollapsed(!collapsed),
-          })}
+          <div className='trigger' onClick={() => setCollapsed(!collapsed)}>
+            {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          </div>
         </Header>
         <Content
           className='site-layout-background'

@@ -17,7 +17,9 @@ function _md5(data: ILoginParams) {
 
   return data;
 }
-export const login = (data: { username: string; password: string }) => {
+export const login = async (data: { username: string; password: string }) => {
   const secret = _md5(data);
-  return Get<IUser>('/login', secret);
+  const result = await Get<IUser>('/login', secret);
+
+  return result.data as IUser;
 };
