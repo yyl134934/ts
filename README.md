@@ -27,7 +27,8 @@ PROJECT
 │   .babelrc.js    
 │   .commitlintrc.js    
 │   .editorconfig 
-│   .eslintignore 
+│   .eslintignore
+│   .env 
 │   .eslintrc.js
 │   .gitignore
 │   .npmrc
@@ -123,6 +124,8 @@ PROJECT
     * mini-css-extract-plugin
     * webpack-bundle-analyzer
     * ~~terser-webpack-plugin~~
+    * dotenv-webpack
+    * webpack-manifest-plugin
 
 * `Babel 7.x`
   * babel/core
@@ -147,6 +150,7 @@ PROJECT
   * commitlint/cli
   * commitlint/config-conventional
 * `Conventional-ChangeLog`
+  * conventional-changelog-cli
 * `Prettier 3.x`
 * `Lint-Staged`
 * `Husky`
