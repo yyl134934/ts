@@ -25,6 +25,30 @@ const THEME = {
 
 const IS_DEV = process.env.NODE_ENV === 'development';
 
+const PROXY = [
+  {
+    // 接口代理1
+    context: ['/api'],
+    target: 'http://localhost:3000',
+    pathRewrite: { '^/api': '' },
+    changeOrigin: true,
+    bypass: function (req, res, proxyOptions) {
+      if (req.headers.accept.indexOf('html') !== -1) {
+        console.log('Skipping proxy for browser request.');
+        return '/index.html';
+      }
+    },
+  },
+  {
+    // 接口代理2
+    // context: ['/api'],
+    // target: 'http://localhost:3000',
+    // changeOrigin: true,
+    // pathRewrite: { '^/api': '' },
+  },
+  // .....
+];
+
 module.exports = {
   PROJECT_PATH,
   PROJECT_NAME,
@@ -36,4 +60,5 @@ module.exports = {
   imageInlineSizeLimit,
   THEME,
   IS_DEV,
+  PROXY,
 };

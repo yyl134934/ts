@@ -1,41 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { clearLoginInfo, saveLoginInfo } from '@/api/local-storage';
 import { login, ILoginParams, IUser } from './api';
 import './index.less';
-
-interface LoginInfo extends ILoginParams {
-  remember: boolean;
-}
-
+import { useQuery } from '@tanstack/react-query';
+import { FcResponse } from '@/api';
 const Login: React.FC = () => {
+  const [param, setParam] = useState<ILoginParams>({ username: '', password: '' });
+  const [shouldFetch, setShouldFetch] = useState(false);
   const navigate = useNavigate();
 
+  const { data, isLoading, isSuccess } = useQuery<IUser>({
+    queryKey: ['login', param],
+    queryFn: () => login(param),
+    enabled: shouldFetch,
+    refetchOnReconnect: false,
+  });
+
   useEffect(() => {
-    clearLoginInfo();
-  }, []);
+    if (isSuccess) {
+      const { token } = data as IUser;
+      saveLoginInfo(token);
 
-  const onFinish = async (values: LoginInfo) => {
+      message.success(`登录成功！`);
+      navigate('/home');
+    }
+  }, [isSuccess, data]);
+
+  const handleLogin = (values: ILoginParams & { remember: boolean }) => {
     const { remember, ...user } = values;
-    const { data, retmsg, retno } = await login(user);
-    console.log('🚀🐍 ~ onFinish ~ retno:', retno);
-
-    if (retno !== `200`) {
-      message.error(`登录失败[${retno}]：${retmsg}`);
-      return;
-    }
-
-    if (remember) {
-      saveLoginInfo(data?.token);
-    }
-
-    message.success(`登录成功！`);
-    navigate('/home');
-  };
-
-  const onFinishFailed = (errorInfo: unknown) => {
-    console.log('Failed:', errorInfo);
+    setParam(user);
+    setShouldFetch(true);
   };
 
   return (
@@ -45,8 +41,7 @@ const Login: React.FC = () => {
         labelCol={{ offset: 4, span: 8 }}
         wrapperCol={{ offset: 4, span: 16 }}
         initialValues={{ username: 'admin', password: 'admin', remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        onFinish={handleLogin}
         autoComplete='off'
         className='login__form'
         colon={false}
@@ -73,7 +68,7 @@ const Login: React.FC = () => {
 
         <Form.Item>
           <Button type='primary' htmlType='submit' className='form-submit'>
-            登录
+            {shouldFetch && isLoading ? '登录中...' : '登录'}
           </Button>
         </Form.Item>
       </Form>

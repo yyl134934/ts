@@ -5,10 +5,12 @@ export const handleChangeRequestHeader = (config: any) => {
 };
 
 export const handleConfigureAuth = (config: any) => {
-  const token = localStorage.getItem('token') || '';
-  config.headers['Authorization'] = `Bearer ${token}`;
+  const token = localStorage.getItem('token');
 
-  return config;
+  if (!token) {
+    return config;
+  }
+  config.headers['Authorization'] = `Bearer ${token}`;
 };
 
 const errMessages = {

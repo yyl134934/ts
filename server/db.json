@@ -1,6 +1,6 @@
 {
   "login": {
-    "retno": "200",
+    "retno": 200,
     "retmsg": "ok",
     "data": {
       "id": "1",

@@ -1,5 +1,4 @@
 import { Get } from '@/api';
-import type { FcResponse } from '@/api';
 
 export interface ILoginParams {
   username: string;
@@ -18,7 +17,7 @@ function _md5(data: ILoginParams) {
 
   return data;
 }
-export const login = (data: ILoginParams) => {
+export const login = (data: { username: string; password: string }) => {
   const secret = _md5(data);
-  return Get<IUser>('/login', secret) as Promise<FcResponse<IUser>>;
+  return Get<IUser>('/login', secret);
 };

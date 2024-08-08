@@ -25,22 +25,26 @@ const axiosInstance = axios.create({
 });
 
 // 修改请求头、配置用户参数
-axios.interceptors.request.use((config) => {
+axiosInstance.interceptors.request.use((config) => {
   config = handleChangeRequestHeader(config);
   config = handleConfigureAuth(config);
   return config;
 });
 
 // 处理网络错误、授权错误、普通错误
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => {
-    if (response.status !== 200) return Promise.reject(response.data);
-    handleAuthError(response.data.errno);
-    handleGeneralError(response.data.errno, response.data.errmsg);
+    const { status, data } = response;
+
+    if (status !== 200) {
+      return Promise.reject(data);
+    }
+    handleAuthError(data?.retno);
+    // handleGeneralError(data?.retno, data?.retmsg);
     return response;
   },
   (err) => {
-    handleNetworkError(err.response.status);
+    handleNetworkError(err.response?.status);
     Promise.reject(err.response);
   },
 );
@@ -57,7 +61,6 @@ export const Get = <T>(url: string, params: IAnyObj = {}, clearFn?: Fn): Promise
     axiosInstance
       .get(url, { params })
       .then((result) => {
-        console.log('🚀🐍 ~ .then ~ result:', result);
         let res: FcResponse<T>;
         if (clearFn !== undefined) {
           res = clearFn(result.data) as unknown as FcResponse<T>;

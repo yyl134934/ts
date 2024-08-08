@@ -1,6 +1,5 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { menuItems, defaultSelectedKeys, defaultOpenKeys } from './menu.config';
